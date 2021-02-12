@@ -7,24 +7,20 @@ let level;
 startGame = function () {
   document.querySelector(".currentlvl").classList.remove("hidden");
 
-  if(!level) {
+  if (!level) {
     document.querySelector(".instructions").classList.remove("hidden");
     setTimeout(function () {
       document.querySelector(".instructions").classList.add("hidden");
     }, 4500);
   }
-  
 
   setTimeout(function () {
     document.querySelector(".currentlvl").classList.add("hidden");
-    
   }, 4500);
 
   if (!selectionDiv.classList.contains("hidden")) {
     selectionDiv.classList.add("hidden");
   }
-
-  
 
   if (!level) {
     level = Number(document.querySelector("#level").value);
@@ -66,10 +62,10 @@ startGame = function () {
       wireframes: false,
       width,
       height,
-      background: "#c6d7c7"
+      background: "#c6d7c7",
     },
   });
-  
+
   // console.log(level);
   // console.log(cellsVertical);
   // console.log(cellsHorizontal);
@@ -77,8 +73,6 @@ startGame = function () {
   Render.run(render);
   let runner = Runner.create();
   Runner.run(runner, engine);
-
-  
 
   //Walls
   const walls = [
