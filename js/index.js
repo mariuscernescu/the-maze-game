@@ -45,12 +45,12 @@ const startGame = function () {
     speed = 10 - level;
     negSpeed = -10 + level;
 
-    // console.log("speed = ", speed, "negSpeed =", negSpeed);
+    // console.log({speed}, {negSpeed});
   } else {
     speed = 10 - level + 2;
     negSpeed = -10 + level - 2;
 
-    // console.log("speed = ", speed, "negSpeed =", negSpeed);
+    // console.log({speed}, {negSpeed});
   }
 
   const unitLenghtX = width / cellsHorizontal;
@@ -70,15 +70,15 @@ const startGame = function () {
     },
   });
 
-  // console.log(level);
-  // console.log(cellsVertical);
-  // console.log(cellsHorizontal);
+  // console.log({level});
+  // console.log({cellsVertical});
+  // console.log({cellsHorizontal});
 
   Render.run(render);
   let runner = Runner.create();
   Runner.run(runner, engine);
 
-  //Walls
+  // Walls
   const walls = [
     Bodies.rectangle(width / 2, 0, width, 2, { isStatic: true }),
     Bodies.rectangle(width / 2, height, width, 2, { isStatic: true }),
@@ -121,13 +121,13 @@ const startGame = function () {
   const startColumn = Math.floor(Math.random() * cellsHorizontal);
 
   const stepThroughCell = (row, column) => {
-    // If i have vizited the cell return
+    // If I have visited the cell return
     if (grid[row][column]) {
       return;
     }
     // Mark this cell as being visited
     grid[row][column] = true;
-    // Asemble randomly-ordered list of neighbors
+    // Assemble randomly-ordered list of neighbors
     const neighbors = shuffle([
       [row - 1, column, "up"],
       [row, column + 1, "right"],
@@ -135,23 +135,17 @@ const startGame = function () {
       [row, column - 1, "left"],
     ]);
 
-    //For each neighhbor..
+    // For each neighbor..
     for (let neighbor of neighbors) {
       const [nextRow, nextColumn, direction] = neighbor;
 
-      // See if that neighbor is out of bounds
+      // See if neighbor is out of bounds, if we have visited that neighbor
       if (
-        nextRow < 0 ||
-        nextRow >= cellsVertical ||
-        nextColumn < 0 ||
-        nextColumn >= cellsHorizontal
+        [nextRow, nextColumn].some((axis) => axis < 0)
+        || nextRow >= cellsVertical
+        || nextColumn >= cellsHorizontal
+        || grid[nextRow][nextColumn]
       ) {
-        continue;
-      }
-
-      // If we have visited that neighbor, continue to next neighbor
-
-      if (grid[nextRow][nextColumn]) {
         continue;
       }
 
@@ -218,7 +212,7 @@ const startGame = function () {
     });
   });
 
-  //Goal
+  // Goal
 
   const goal = Bodies.rectangle(
     width - unitLenghtX / 2,
@@ -235,7 +229,7 @@ const startGame = function () {
   );
   World.add(world, goal);
 
-  //Ball
+  // Ball
 
   const ballRadius = Math.min(unitLenghtX, unitLenghtY) / 3;
   const ball = Bodies.circle(unitLenghtX / 2, unitLenghtY / 2, ballRadius, {
@@ -246,7 +240,7 @@ const startGame = function () {
   });
   World.add(world, ball);
 
-  //Make the ball move when you press key
+  // Make the ball move when you press key
   document.addEventListener("keydown", (event) => {
     const { x, y } = ball.velocity;
 
@@ -264,7 +258,7 @@ const startGame = function () {
     }
   });
 
-  //Make the ball stop when you lift you finger
+  // Make the ball stop when you lift you finger
   document.addEventListener("keyup", (event) => {
     const { x, y } = ball.velocity;
 
@@ -301,7 +295,7 @@ const startGame = function () {
             }
           });
         } else {
-          //Win effect
+          // Win effect
 
           world.gravity.y = 1;
           world.bodies.forEach((body) => {
@@ -310,7 +304,7 @@ const startGame = function () {
             }
           });
 
-          //Stop the current game after delay
+          // Stop the current game after delay
           document.querySelector(".winner2").classList.remove("hidden");
           setTimeout(function () {
             Matter.World.clear(world);
