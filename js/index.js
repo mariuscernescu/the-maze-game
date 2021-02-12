@@ -1,10 +1,14 @@
+'use strict';
+
+
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
+
 
 const selectionDiv = document.querySelector(".start");
 const startbtn = document.querySelector("#startbtn");
 let level;
 
-startGame = function () {
+const startGame = function () {
   document.querySelector(".currentlvl").classList.remove("hidden");
 
   if (!level) {
@@ -29,8 +33,8 @@ startGame = function () {
     document.querySelector(".currentlvl__lvl").innerHTML = level;
   }
 
-  cellsVertical = 4 + 2 * level;
-  cellsHorizontal = 5 + 2 * (level * 2);
+  const cellsVertical = 4 + 2 * level;
+  const cellsHorizontal = 5 + 2 * (level * 2);
 
   const width = window.innerWidth * 1;
   const height = window.innerHeight * 0.995;
